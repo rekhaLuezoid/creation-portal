@@ -5,6 +5,7 @@ import { UserService } from './../user/user.service';
 import { ConfigService, ServerResponse, BrowserCacheTtlService } from '@sunbird/shared';
 import { Observable, of } from 'rxjs';
 import { PublicDataService } from './../public-data/public-data.service';
+import { LearnerService } from './../learner/learner.service';
 import { CacheService } from 'ng2-cache-service';
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,8 @@ export class FormService {
    * @param {PublicDataService} publicDataService content service reference
    */
   constructor(userService: UserService, configService: ConfigService, publicDataService: PublicDataService,
-    private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService) {
+    private cacheService: CacheService, private browserCacheTtlService: BrowserCacheTtlService,
+    private learnerService:  LearnerService) {
     this.userService = userService;
     this.configService = configService;
     this.publicDataService = publicDataService;
@@ -64,7 +66,7 @@ export class FormService {
       if (formInputParams.framework) {
         channelOptions.data.request.framework = formInputParams.framework;
       }
-      return this.publicDataService.post(channelOptions).pipe(map(
+      return this.learnerService.post(channelOptions).pipe(map(
         (formConfig: ServerResponse) => {
           this.setForm(formKey, formConfig.result.form.data.fields);
           return formConfig.result.form.data.fields;
