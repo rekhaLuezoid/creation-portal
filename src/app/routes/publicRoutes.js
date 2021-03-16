@@ -8,6 +8,8 @@ const learnerURL = envHelper.LEARNER_URL
 const reqDataLimitOfContentUpload = '50mb'
 const contentServiceBaseUrl = envHelper.CONTENT_URL
 const logger = require('sb_logger_util_v2')
+const SUNBIRD_PORTAL_URL = envHelper.SUNBIRD_PORTAL_URL;
+
 
 module.exports = function (app) {
     const proxyReqPathResolverMethod = function (req) {
@@ -91,6 +93,34 @@ module.exports = function (app) {
             } catch(err) {
             logger.error({msg:'content api user res decorator json parse error:', proxyResData})
                 return proxyHeaders.handleSessionExpiry(proxyRes, proxyResData, req, res);
+            }
+        }
+        })
+    )
+
+    app.post('/api/data/v1/form/read',
+        permissionsHelper.checkPermission(),
+        proxy(SUNBIRD_PORTAL_URL, {
+        proxyReqOptDecorator: proxyHeaders.decorateSunbirdRequestHeaders(),
+        proxyReqPathResolver: function (req) {
+          let urlParam = req.originalUrl.replace('/api/', '')
+          let query = require('url').parse(req.url).query
+          console.log('/api/data/v1/form/read ', SUNBIRD_PORTAL_URL, require('url').parse(SUNBIRD_PORTAL_URL + urlParam).path);
+          if (query) {
+          return require('url').parse(SUNBIRD_PORTAL_URL + urlParam + '?' + query).path
+          } else {
+          return require('url').parse(SUNBIRD_PORTAL_URL + urlParam).path
+          }
+        },
+        userResDecorator: function (proxyRes, proxyResData,  req, res) {
+            try {
+                logger.info({msg: '/api/data/v1/form/read'});
+                const data = JSON.parse(proxyResData.toString('utf8'));
+                if(req.method === 'GET' && proxyRes.statusCode === 404 && (typeof data.message === 'string' && data.message.toLowerCase() === 'API not found with these values'.toLowerCase())) res.redirect('/')
+                else return proxyHeaders.handleSessionExpiry(proxyRes, proxyResData, req, res, data);
+            } catch(err) {
+                logger.error({msg:'content api user res decorator json parse error:', proxyResData})
+                    return proxyHeaders.handleSessionExpiry(proxyRes, proxyResData, req, res);
             }
         }
         })
