@@ -22,9 +22,6 @@
       "@sunbird/resource": [
         "app/modules/resource"
       ],
-      "@sunbird/learn": [
-        "app/modules/learn"
-      ],
       "@sunbird/workspace": [
         "app/modules/workspace"
       ],
