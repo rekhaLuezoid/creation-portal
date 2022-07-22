@@ -92,6 +92,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   public selectedStatusOptions: any = [];
   showConfirmationModal = false;
   showRemoveConfirmationModal = false;
+  showQuestionModal: boolean = false;
   publishQuestionset = true;
   bulkUploadEnabled = true;
   contentName: string;
@@ -1903,7 +1904,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     }
     this.currentStage = 'chapterListComponent';
   }
-
+  
   setAddLibraryInput(event) {
     this.addFormLibraryInput = {
       targetPrimaryCategories: this.programContext.targetprimarycategories,
@@ -1947,5 +1948,9 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
       },
       searchFormConfig: this.searchConfig.properties
     };
+  }
+
+  questionModalClose(){
+    this.showQuestionModal = false;
   }
 }

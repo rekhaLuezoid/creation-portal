@@ -1,0 +1,23 @@
+<sui-modal *ngIf="showQuestionModal" [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'normal'"
+  class="sb-modal" appBodyScroll (dismissed)= "onModalClose()" #modal>
+  <div class="sb-modal-header">
+    Preview of Questions
+    </div>
+    <div class="sb-modal-content">
+       <div class="flex-dc">
+           <div class="question-text">
+                This is a demo Question and below are options: 
+           </div>
+           <div class="flex-dc">
+                <div class="flex-dr flex-jc-space-between">
+                    <label for="">Option 1</label>
+                    <label for="">Option 2</label>
+                </div>
+                <div class="flex flex-dr flex-jc-space-between">
+                    <label for="">Option 3</label>
+                    <label for="">Option 4</label>
+                </div>
+           </div>
+       </div> 
+    </div>
+</sui-modal>
