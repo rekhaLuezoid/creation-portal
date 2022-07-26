@@ -136,6 +136,8 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   displayDownloadCsv = false;
   public reviewHelpSectionConfig: any;
   public contributeHelpSectionConfig: any;
+  public questionIdentifierList:Array<string>=[];
+
   constructor(public publicDataService: PublicDataService, public configService: ConfigService,
     private userService: UserService, public actionService: ActionService,
     public telemetryService: TelemetryService, private sourcingService: SourcingService,
@@ -157,7 +159,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     this.configUrl =  (<HTMLInputElement>document.getElementById('portalCloudStorageUrl')) ?
     (<HTMLInputElement>document.getElementById('portalCloudStorageUrl')).value : "";
   }
-
+  
   ngOnInit() {
     this.stageSubscription = this.programStageService.getStage().subscribe(state => {
       this.state.stages = state.stages;
@@ -217,6 +219,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
 
     // clearing the selected questionId when user comes back from question list
     delete this.sessionContext['questionList'];
+    
 
     this.dynamicOutputs = {
       uploadedContentMeta: (contentMeta) => {
@@ -359,6 +362,9 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
             }
           });
           _.forEach( _.get(response, 'result.QuestionSet'), (obj) => {
+            console.log(obj,obj.identifier)
+            this.questionIdentifierList.push(obj.identifier);
+          
             if (obj.status == 'Live') {
               this.sessionContext['contentOrigins'][obj.origin] = obj;
             }
@@ -764,7 +770,9 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   }
 
   setTreeLeafStatusMessage(identifier, instance) {
+    
     this.collectionHierarchy = this.setCollectionTree(this.collectionData, identifier);
+    this.getIdentifiersList(); 
     if (this.originalCollectionData && this.originalCollectionData.status !== 'Draft' && this.sourcingOrgReviewer) {
       // tslint:disable-next-line:max-line-length
       this.textbookStatusMessage = this.resourceService.frmelmnts.lbl.textbookStatusMessage.replaceAll('{TARGET_NAME}', this.targetCollection);
@@ -1952,5 +1960,11 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
 
   questionModalClose(){
     this.showQuestionModal = false;
+  }
+
+  getIdentifiersList(){
+    this.collectionHierarchy.forEach(el=> {
+      this.questionIdentifierList.push(el.identifier)
+    })
   }
 }

@@ -1,23 +1,40 @@
 <sui-modal *ngIf="showQuestionModal" [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'normal'"
-  class="sb-modal" appBodyScroll (dismissed)= "onModalClose()" #modal>
-  <div class="sb-modal-header">
-    Preview of Questions
+    class="sb-modal" appBodyScroll (dismissed)="onModalClose()" #modal>
+    <div class="sb-modal-header">
+        Preview of Questions
     </div>
     <div class="sb-modal-content">
-       <div class="flex-dc">
-           <div class="question-text">
-                This is a demo Question and below are options: 
-           </div>
-           <div class="flex-dc">
-                <div class="flex-dr flex-jc-space-between">
-                    <label for="">Option 1</label>
-                    <label for="">Option 2</label>
+        <div *ngFor="let question of questionList; let questionNo = index" class="flex-dc mb-15">
+            <div class="d-flex justify-content-start mb-10">
+                <p class="question-alignment">
+                    <span>Question {{questionNo+1}}:</span>
+                    <span [innerHtml]="question.editorState.question"></span>
+                </p>
+            </div>
+            <div>
+                <div class="d-flex flex-jc-space-between mb-5">
+                    <label>A: 
+                        <span [innerHtml]="question.editorState.options[0].value.body"></span>
+                    </label>
+                    <label>B: 
+                        <span [innerHtml]="question.editorState.options[1].value.body"></span>
+                    </label>
+
                 </div>
-                <div class="flex flex-dr flex-jc-space-between">
-                    <label for="">Option 3</label>
-                    <label for="">Option 4</label>
+                <div class="d-flex flex-jc-space-between mb-5">
+                    <label>C: 
+                        <span [innerHtml]="question.editorState.options[2].value.body"></span>  
+                    </label>
+                    <label>D: 
+                        <span [innerHtml]="question.editorState.options[3].value.body"></span>
+                    </label>
+
                 </div>
-           </div>
-       </div> 
+            </div>
+            <div>
+                <label>Status: <span
+                        [ngClass]="question.status==='Approved'? 'sb-color-success':'sb-color-warning'">{{question.status}}</span></label>
+            </div>
+        </div>
     </div>
 </sui-modal>

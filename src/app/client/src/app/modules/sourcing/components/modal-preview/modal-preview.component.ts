@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { holdReady } from 'jquery';
+import { QuestionPreviewService } from './question-preview.service';
 
 @Component({
   selector: 'app-modal-preview',
@@ -8,29 +10,25 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 export class ModalPreviewComponent implements OnInit {
   @Input() showQuestionModal: boolean = false;
   @Output() showQuestionOutput = new EventEmitter();
-  
-  questionList = [
-    {
-      question: 'This is a demo question',
-      options: [
-        'A',
-        'B',
-        'C',
-        'D',
-      ],
-      questionNo: 1,
-      class: 6,
+  @Input() currentIdentifier:string 
 
-    },
-  ]
+  questionList = [];
 
-  constructor() { }
+  constructor(private _questionPreviewService: QuestionPreviewService) { }
 
   ngOnInit(): void {
+    this._questionPreviewService.getQuestionsData([this.currentIdentifier]).subscribe(resp => {
+      console.log(resp);
+      if (resp.responseCode.toLowerCase() === 'ok') {
+        this.questionList = resp.result.questions
+        console.log(this.questionList);
+      }
+    });
   }
 
-  onModalClose(){
+  onModalClose() {
     this.showQuestionOutput.emit();
   }
 
+  
 }
