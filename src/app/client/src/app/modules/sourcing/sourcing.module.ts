@@ -41,6 +41,8 @@ import { SunbirdVideoPlayerModule } from '@project-sunbird/sunbird-video-player-
 import { TranscriptsComponent } from './components/transcripts/transcripts.component';
 import { TranscriptsReviewComponent } from './components/transcripts-review/transcripts-review.component';
 import { AccessibilityInfoComponent } from './components/accessibility-info/accessibility-info.component';
+import { ModalPreviewComponent } from './components/modal-preview/modal-preview.component';
+import { QuestionPreviewService } from './components/modal-preview/question-preview.service';
 
 @NgModule({
   declarations: [QuestionListComponent, QuestionCreationComponent,
@@ -51,7 +53,8 @@ import { AccessibilityInfoComponent } from './components/accessibility-info/acce
     ResourceReorderComponent, ContentEditorComponent, MvcLibraryComponent,
     MvcListComponent, MvcFilterComponent, MvcPlayerComponent, SkeletonLoaderComponent,
     BulkApprovalComponent, BulkUploadComponent, QuestionSetEditorComponent, TranscriptsComponent, TranscriptsReviewComponent,
-    AccessibilityInfoComponent],
+    AccessibilityInfoComponent,
+    ModalPreviewComponent],
   imports: [
     RouterModule,
     CoreModule,
@@ -79,6 +82,7 @@ import { AccessibilityInfoComponent } from './components/accessibility-info/acce
   providers: [
     { provide: QuestionCursor, useExisting: QumlPlayerService },
     { provide: EditorCursor, useExisting: QumlPlayerService },
+    QuestionPreviewService,
     CollectionHierarchyService],
   exports: [ BulkUploadComponent, BulkApprovalComponent, SanitizeHtmlPipe, TranscriptsComponent, TranscriptsReviewComponent, QuestionSetEditorComponent  ]
 })

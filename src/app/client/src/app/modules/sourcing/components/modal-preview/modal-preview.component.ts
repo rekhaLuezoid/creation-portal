@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { holdReady } from 'jquery';
+import { ResourceService } from '@sunbird/shared';
 import { QuestionPreviewService } from './question-preview.service';
+
 
 @Component({
   selector: 'app-modal-preview',
@@ -10,14 +11,14 @@ import { QuestionPreviewService } from './question-preview.service';
 export class ModalPreviewComponent implements OnInit {
   @Input() showQuestionModal: boolean = false;
   @Output() showQuestionOutput = new EventEmitter();
-  @Input() currentIdentifier:string 
+  @Input() identifierList:Array<string>
 
   questionList = [];
-
-  constructor(private _questionPreviewService: QuestionPreviewService) { }
+  constructor(private _questionPreviewService: QuestionPreviewService, 
+    public resourceService: ResourceService) { }
 
   ngOnInit(): void {
-    this._questionPreviewService.getQuestionsData([this.currentIdentifier]).subscribe(resp => {
+    this._questionPreviewService.getQuestionsData(this.identifierList).subscribe(resp => {
       console.log(resp);
       if (resp.responseCode.toLowerCase() === 'ok') {
         this.questionList = resp.result.questions

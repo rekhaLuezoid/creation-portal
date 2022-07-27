@@ -136,7 +136,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   displayDownloadCsv = false;
   public reviewHelpSectionConfig: any;
   public contributeHelpSectionConfig: any;
-  public questionIdentifierList:Array<string>=[];
+  public questionIdentifierList:Array<string> = []; 
 
   constructor(public publicDataService: PublicDataService, public configService: ConfigService,
     private userService: UserService, public actionService: ActionService,
@@ -362,9 +362,6 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
             }
           });
           _.forEach( _.get(response, 'result.QuestionSet'), (obj) => {
-            console.log(obj,obj.identifier)
-            this.questionIdentifierList.push(obj.identifier);
-          
             if (obj.status == 'Live') {
               this.sessionContext['contentOrigins'][obj.origin] = obj;
             }
@@ -770,9 +767,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   }
 
   setTreeLeafStatusMessage(identifier, instance) {
-    
     this.collectionHierarchy = this.setCollectionTree(this.collectionData, identifier);
-    this.getIdentifiersList(); 
     if (this.originalCollectionData && this.originalCollectionData.status !== 'Draft' && this.sourcingOrgReviewer) {
       // tslint:disable-next-line:max-line-length
       this.textbookStatusMessage = this.resourceService.frmelmnts.lbl.textbookStatusMessage.replaceAll('{TARGET_NAME}', this.targetCollection);
@@ -1643,6 +1638,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     });
 
     if (collection.leaf) {
+      this.getIdentifiers(collection.leaf);
       // tslint:disable-next-line:max-line-length
       const filteredContents = this.filterContentsForCount(collection.leaf, contentStatus, onlySample, organisationId, createdBy, visibility, prevStatus);
       collection.totalLeaf = collection.totalLeaf + filteredContents.length;
@@ -1962,9 +1958,9 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     this.showQuestionModal = false;
   }
 
-  getIdentifiersList(){
-    this.collectionHierarchy.forEach(el=> {
-      this.questionIdentifierList.push(el.identifier)
-    })
+  getIdentifiers(collectionleaf){
+    collectionleaf.forEach(element => {
+      this.questionIdentifierList.push(element.identifier);
+    });
   }
 }
