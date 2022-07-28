@@ -1959,8 +1959,8 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   }
 
   getIdentifiers(collectionleaf){
-    collectionleaf.forEach(element => {
-      this.questionIdentifierList.push(element.identifier);
+    this.questionIdentifierList = _.map(collectionleaf, (child) => {
+      return child.identifier;
     });
   }
 }

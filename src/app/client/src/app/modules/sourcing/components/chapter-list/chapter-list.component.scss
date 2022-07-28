@@ -305,7 +305,7 @@
     }
   }
 }
-.text-color{
+button.text-color:hover{
   color: var(--primary-800);
-background-color: var(--primary-100);
+  text-decoration: underline;
 }

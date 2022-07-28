@@ -3,7 +3,10 @@
     <div class="sb-modal-header">
         Preview of Questions
     </div>
-    <div class="sb-modal-content">
+    <div class="sb-modal-content" infiniteScroll
+    [infiniteScrollDistance]="2"
+    [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()">
         <div *ngFor="let question of questionList; let questionNo = index" class="flex-dc mb-15">
             <div class="d-flex justify-content-start mb-10">
                 <p class="question-alignment">

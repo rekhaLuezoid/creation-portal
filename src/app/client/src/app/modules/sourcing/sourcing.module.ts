@@ -77,7 +77,8 @@ import { QuestionPreviewService } from './components/modal-preview/question-prev
     NgInviewModule,
     CollectionEditorLibraryModule,
     CarouselModule.forRoot(),
-    ResourceLibraryModule, SunbirdVideoPlayerModule
+    ResourceLibraryModule, SunbirdVideoPlayerModule,
+    InfiniteScrollModule
   ],
   providers: [
     { provide: QuestionCursor, useExisting: QumlPlayerService },

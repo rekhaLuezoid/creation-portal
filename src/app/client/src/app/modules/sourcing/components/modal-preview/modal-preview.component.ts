@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ResourceService } from '@sunbird/shared';
+import { ISessionContext } from '../../interfaces';
 import { QuestionPreviewService } from './question-preview.service';
 
 
@@ -12,6 +13,7 @@ export class ModalPreviewComponent implements OnInit {
   @Input() showQuestionModal: boolean = false;
   @Output() showQuestionOutput = new EventEmitter();
   @Input() identifierList:Array<string>
+  @Input() sessionContext: ISessionContext
 
   questionList = [];
   constructor(private _questionPreviewService: QuestionPreviewService, 
@@ -30,6 +32,11 @@ export class ModalPreviewComponent implements OnInit {
   onModalClose() {
     this.showQuestionOutput.emit();
   }
+  getLimitedQuestionList(){
 
+  }
+  onScroll(){
+    console.log("scrolled Rishi!!");
+  }
   
 }
