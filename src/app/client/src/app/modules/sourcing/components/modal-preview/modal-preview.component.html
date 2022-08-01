@@ -1,33 +1,31 @@
-<sui-modal *ngIf="showQuestionModal" [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'large'"
-    class="sb-modal" appBodyScroll (dismissed)="onModalClose()" #modal>
+<sui-modal *ngIf="showQuestionModal" [mustScroll]="false"[isClosable]="true" [transitionDuration]="0" [size]="'large'"
+    class="sb-modal" (dismissed)="onModalClose()" #modal>
     <div class="sb-modal-header">
         Preview of Questions
     </div>
-    <div class="sb-modal-content" infiniteScroll
-    [infiniteScrollDistance]="2"
-    [infiniteScrollThrottle]="50"
-    (scrolled)="onScroll()">
-        <div *ngFor="let question of questionList; let questionNo = index" class="flex-dc mb-15">
+    <div class="sb-modal-content"
+        infiniteScroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="500"
+        [infiniteScrollContainer]="selector1"
+        (scrolled)="onScrollDown()"
+        (scrolledUp)="onScrollUp()"
+        [fromRoot]="true">
+               
+        <div *ngFor="let question of displayQuestionList; let questionNo = index" class="flex-dc mb-15">
             <div class="d-flex justify-content-start mb-10">
                 <p class="question-alignment">
                     <span>Question {{questionNo+1}}:</span>
-                    <span [innerHtml]="question.editorState.question"></span>     
+                    <span [innerHtml]="question.editorState.question"></span>
                 </p>
             </div>
            <ng-container *ngIf="question.qType==='SA' ; else objectiveTypeQuestion">
                 <div><span [innerHtml]="question.editorState.answer"></span></div>
            </ng-container>
             <div>
-                <label>Status:                 
-                <span 
-                    [ngClass]="{'sb-color-warning':question.status === 'Review' || question.status=== 'Draft'}"  
-                    *ngIf="question.status === 'Review' || question.status==='Draft'">
-                    {{resourceService.frmelmnts.lbl.approvalPending}}
-                </span>
-                <span 
-                    [ngClass]="{'sb-color-success':question.status === 'Live'}"  
-                    *ngIf="question.status === 'Live'">
-                    {{resourceService.frmelmnts.lbl.approved}}
+                <label>Status:
+                <span [ngClass]="questionStatusMap[question.identifier]['styleClass']">
+                  {{questionStatusMap[question.identifier]['status']}}
                 </span>
                 </label>
 
@@ -35,25 +33,25 @@
             <ng-template #objectiveTypeQuestion>
                 <div>
                     <div class="d-flex flex-jc-space-between mb-5">
-                        <label>A: 
+                        <label>A:
                             <span [innerHtml]="question.editorState.options[0].value.body"></span>
                         </label>
-                        <label>B: 
+                        <label>B:
                             <span [innerHtml]="question.editorState.options[1].value.body"></span>
                         </label>
-            
+
                     </div>
                     <div class="d-flex flex-jc-space-between mb-5">
-                        <label>C: 
-                            <span [innerHtml]="question.editorState.options[2].value.body"></span>  
+                        <label>C:
+                            <span [innerHtml]="question.editorState.options[2].value.body"></span>
                         </label>
-                        <label>D: 
+                        <label>D:
                             <span [innerHtml]="question.editorState.options[3].value.body"></span>
                         </label>
-            
+
                     </div>
                 </div>
             </ng-template>
-        </div>
+        </div>   
     </div>
 </sui-modal>

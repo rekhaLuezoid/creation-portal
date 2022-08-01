@@ -136,7 +136,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   displayDownloadCsv = false;
   public reviewHelpSectionConfig: any;
   public contributeHelpSectionConfig: any;
-  public questionIdentifierList:Array<string> = []; 
+  public questionIdentifierList:Array<string> = [];
 
   constructor(public publicDataService: PublicDataService, public configService: ConfigService,
     private userService: UserService, public actionService: ActionService,
@@ -159,7 +159,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     this.configUrl =  (<HTMLInputElement>document.getElementById('portalCloudStorageUrl')) ?
     (<HTMLInputElement>document.getElementById('portalCloudStorageUrl')).value : "";
   }
-  
+
   ngOnInit() {
     this.stageSubscription = this.programStageService.getStage().subscribe(state => {
       this.state.stages = state.stages;
@@ -219,7 +219,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
 
     // clearing the selected questionId when user comes back from question list
     delete this.sessionContext['questionList'];
-    
+
 
     this.dynamicOutputs = {
       uploadedContentMeta: (contentMeta) => {
@@ -1638,7 +1638,6 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     });
 
     if (collection.leaf) {
-      this.getIdentifiers(collection.leaf);
       // tslint:disable-next-line:max-line-length
       const filteredContents = this.filterContentsForCount(collection.leaf, contentStatus, onlySample, organisationId, createdBy, visibility, prevStatus);
       collection.totalLeaf = collection.totalLeaf + filteredContents.length;
@@ -1908,7 +1907,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
     }
     this.currentStage = 'chapterListComponent';
   }
-  
+
   setAddLibraryInput(event) {
     this.addFormLibraryInput = {
       targetPrimaryCategories: this.programContext.targetprimarycategories,
@@ -1956,11 +1955,5 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
 
   questionModalClose(){
     this.showQuestionModal = false;
-  }
-
-  getIdentifiers(collectionleaf){
-    this.questionIdentifierList = _.map(collectionleaf, (child) => {
-      return child.identifier;
-    });
   }
 }

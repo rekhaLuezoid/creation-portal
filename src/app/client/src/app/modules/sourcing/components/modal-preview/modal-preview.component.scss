@@ -9,6 +9,11 @@
     display: flex;
     width: 50%;
 }
+// .sui-scrolled{
+//     overflow-y: scroll;
+//     max-height: calc(100vh - 200px);
+// }
+
 ::ng-deep{
     .d-flex label span p{
         line-height: 0.9;
@@ -17,5 +22,6 @@
     .sb-modal .ui.modal.large{
         max-width: 75rem;
         max-height: 30rem;
+        
     }
 }
