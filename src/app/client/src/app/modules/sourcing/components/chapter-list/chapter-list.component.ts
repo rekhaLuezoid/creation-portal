@@ -134,6 +134,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
   printUrl;
   downloadCsvUrl;
   displayDownloadCsv = false;
+  displayShowQuestionPreview= false;
   public reviewHelpSectionConfig: any;
   public contributeHelpSectionConfig: any;
   public questionIdentifierList:Array<string> = [];
@@ -522,6 +523,10 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
             });
           }
           this.setLocalBlueprint();
+        }
+
+        if (_.has(objectCategoryDefinition.objectMetadata, 'config.sourcingSettings.collection.showQuestionPreview')) {
+          this.displayShowQuestionPreview = _.get(objectCategoryDefinition.objectMetadata, 'config.sourcingSettings.collection.showQuestionPreview');
         }
 
         const contextType = this.sessionContext['frameworkType'] || _.get(this.programContext, 'config.frameworkObj.type');
