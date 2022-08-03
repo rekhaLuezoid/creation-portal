@@ -22,6 +22,9 @@ export class ModalPreviewComponent implements OnInit {
   displayQuestionList = []
   questionList = [];
   questionStatusMap = {};
+ readonly identifierList = [];
+ pageNumber: number = 1;
+ labellingOption: Array<string>=['A', 'B', 'C', 'D']
 
   constructor(private _questionPreviewService: QuestionPreviewService,
               public resourceService: ResourceService,
@@ -30,12 +33,11 @@ export class ModalPreviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.sourcingOrgReviewer = this.router.url.includes('/sourcing');
-    const identifierList = [];
     this.collectionHierarchy.forEach(section => {
       if (section.leaf) {
         section.leaf.forEach(question => {
           if (question.contentVisibility === true && this.includes(this.sourcingOrgReviewer, this.selectedStatus, question.sourcingStatus || question.status)) {
-            identifierList.push(question.identifier);
+            this.identifierList.push(question.identifier);
             this.questionStatusMap[question.identifier] = 'Draft';
             if (question.status === 'Live' && !question.sourcingStatus) {
               this.questionStatusMap[question.identifier] = {
@@ -53,10 +55,16 @@ export class ModalPreviewComponent implements OnInit {
       }
     });
 
+    this.getLimitedQuestions();
+  }
+
+  getLimitedQuestions(){
+    const identifierList = this.getIdentifiersList();
+    if(identifierList.length > 0)
     this._questionPreviewService.getQuestionsData(identifierList).subscribe(resp => {
       if (resp.responseCode.toLowerCase() === 'ok') {
-        this.questionList = resp.result.questions;
-                this.getLimitedQuestionList();        
+        this.questionList = [...this.questionList,...resp.result.questions];
+        this.questionList.concat(...resp.result.questions)  
       }
     });
   }
@@ -77,7 +85,7 @@ export class ModalPreviewComponent implements OnInit {
     this.showQuestionOutput.emit();
   }
 
-  getLimitedQuestionList() {
+  getLimitedQuestionList(){
     const currentdisplayCount = this.displayQuestionList.length
     const remainQuestionCount = this.questionList.length - currentdisplayCount;
     const initalLimit = 10;
@@ -85,17 +93,23 @@ export class ModalPreviewComponent implements OnInit {
       remainQuestionCount > initalLimit ? initalLimit : remainQuestionCount
     )
     this.displayQuestionList = _.take(this.questionList,limitCount)
-    //console.log(this.displayQuestionList,this.questionList) 
+  }
+
+  getIdentifiersList(): Array<string>{
+    const identifierCount = this.identifierList.length; 
+    const limitCountByPageNo = this.pageNumber*10// 
+    if(identifierCount < limitCountByPageNo -10)
+    return []
+    const limitCount: number = identifierCount >= limitCountByPageNo 
+    ? limitCountByPageNo : identifierCount
+    const startingIndex: number = this.pageNumber > 1 ? limitCountByPageNo-10 : 0
+    const identifierList = this.identifierList.slice(startingIndex, limitCount)
+    this.pageNumber++
+    return identifierList || []
   }
 
   selector1: string = '.sb-modal-content';
   onScrollDown() {
-    console.log("scrolled down!");
-    this.getLimitedQuestionList();
-    // this.questionList // length
+    this.getLimitedQuestions();
   }
-  onScrollUp(){
-    console.log("scrolled up!");
-    }
-
 }

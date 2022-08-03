@@ -9,10 +9,9 @@
         [infiniteScrollThrottle]="500"
         [infiniteScrollContainer]="selector1"
         (scrolled)="onScrollDown()"
-        (scrolledUp)="onScrollUp()"
         [fromRoot]="true">
                
-        <div *ngFor="let question of displayQuestionList; let questionNo = index" class="flex-dc mb-15">
+        <div *ngFor="let question of questionList; let questionNo = index" class="flex-dc mb-15">
             <div class="d-flex justify-content-start mb-10">
                 <p class="question-alignment">
                     <span>Question {{questionNo+1}}:</span>
@@ -24,15 +23,21 @@
            </ng-container>
             <div>
                 <label>Status:
-                <span [ngClass]="questionStatusMap[question.identifier]['styleClass']">
+                <span [ngClass]="questionStatusMap[question.identifier]?.styleClass">
                   {{questionStatusMap[question.identifier]['status']}}
                 </span>
                 </label>
 
             </div>
             <ng-template #objectiveTypeQuestion>
-                <div>
-                    <div class="d-flex flex-jc-space-between mb-5">
+                <div class="container-grid">
+                    <ng-container *ngFor="let option of question.editorState.options; let optionIndex= index">
+                        <label>
+                            <span>{{labellingOption[optionIndex]}}: </span>
+                            <span [innerHtml]="option.value.body"></span>
+                        </label>
+                    </ng-container>
+                    <!-- <div class="d-flex flex-jc-space-between mb-5">
                         <label>A:
                             <span [innerHtml]="question.editorState.options[0].value.body"></span>
                         </label>
@@ -49,7 +54,7 @@
                             <span [innerHtml]="question.editorState.options[3].value.body"></span>
                         </label>
 
-                    </div>
+                    </div> -->
                 </div>
             </ng-template>
         </div>   

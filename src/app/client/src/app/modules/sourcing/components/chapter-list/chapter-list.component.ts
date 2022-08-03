@@ -1245,7 +1245,7 @@ export class ChapterListComponent implements OnInit, OnChanges, OnDestroy, After
           return true;
       }
     } else {
-      if ((this.sessionContext.nominationDetails.status === 'Approved' || this.sessionContext.nominationDetails.status === 'Rejected')
+      if ((this.sessionContext.nominationDetails?.status === 'Approved' || this.sessionContext.nominationDetails?.status === 'Rejected')
        && content.sampleContent === true) {
         return false;
       // tslint:disable-next-line:max-line-length
