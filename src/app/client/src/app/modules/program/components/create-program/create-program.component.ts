@@ -2054,4 +2054,119 @@ showTexbooklist() {
   getFormData(event) {
     this.frameworkFormData = event;
   }
+
+  duplicateQuestionSet(questionSetData:any){
+    const createData = {
+      "request": {
+        "questionset": {
+          "name": "Untitled",
+          "code": "895ad53a-1723-e9a3-60f7-337a5875bfcc",
+          "mimeType": "application/vnd.sunbird.questionset",
+          "createdBy": "5a587cc1-e018-4859-a0a8-e842650b9d64",
+          "primaryCategory": "Exam Question Set",
+          "creator": "n11@yopmail.com",
+          "author": "n11@yopmail.com",
+          "programId": "4dff0840-124b-11ed-be8b-9962d8844469",
+          "channel": "01309282781705830427",
+          "framework": "ekstep_ncert_k-12",
+          "board": "CBSE",
+          "medium": [],
+          "gradeLevel": [],
+          "subject": [],
+          "boardIds": [],
+          "mediumIds": [],
+          "gradeLevelIds": [],
+          "subjectIds": [],
+          "topic": []
+        }
+      }
+    }
+    this.sourcingService.createDuplicateQuestionSet(createData).subscribe(res=>{
+      console.log('res', res);
+    })
+    const data = {
+      "request": {
+        "data": {
+          "nodesModified": {
+            "do_11359489331403980814": {
+              "root": true,
+              "objectType": "QuestionSet",
+              "metadata": {
+                "appIcon": "",
+                "name": "Example One",
+                "primaryCategory": "Exam Question Set",
+                "additionalCategories": [],
+                "board": "CBSE",
+                "medium": [
+                  "English"
+                ],
+                "gradeLevel": [
+                  "Class 3"
+                ],
+                "subject": [
+                  "Mathematics"
+                ],
+                "shuffle": true,
+                "showFeedback": "No",
+                "showSolutions": "No",
+                "showTimer": "No",
+                "visibility": "Default",
+                "author": "n11@yopmail.com",
+                "copyright": "NIT123",
+                "license": "CC BY 4.0",
+                "attributions": [],
+                "description": "Example One Example One Example One",
+                "keywords": [
+                  "test"
+                ],
+                "instructions": {
+                  "default": "Example One Example One Example One Example One"
+                },
+                "audience": [
+                  "Student"
+                ],
+                "maxScore": 0
+              },
+              "isNew": false
+            },
+            "b02a00d9-5fac-d172-c822-b2589e807657": {
+              "root": false,
+              "objectType": "QuestionSet",
+              "metadata": {
+                "mimeType": "application/vnd.sunbird.questionset",
+                "code": "b02a00d9-5fac-d172-c822-b2589e807657",
+                "name": "Section Example One",
+                "visibility": "Parent",
+                "primaryCategory": "Exam Question Set",
+                "attributions": [],
+                "description": "Example One Example One Example One",
+                "keywords": [
+                  "test"
+                ],
+                "topic": [
+                  "Addition"
+                ]
+              },
+              "isNew": true
+            }
+          },
+          "hierarchy": {
+            "do_11359489331403980814": {
+              "name": "Example One",
+              "children": [
+                "b02a00d9-5fac-d172-c822-b2589e807657"
+              ],
+              "root": true
+            },
+            "b02a00d9-5fac-d172-c822-b2589e807657": {
+              "name": "Section Example One",
+              "children": [],
+              "root": false
+            }
+          },
+          "lastUpdatedBy": "5a587cc1-e018-4859-a0a8-e842650b9d64"
+        }
+      }
+    }
+  }
 }

@@ -280,4 +280,14 @@ export class SourcingService {
       }
     };
   }
+
+  createDuplicateQuestionSet(data:any){
+  const URL  = '/action/questionset/v1/create'
+  return this.httpClient.post(URL,data)
+  }
+
+  updateDuplicateQustionSet(data:any){
+    const url = '/action/questionset/v1/hierarchy/update'
+    return this.httpClient.patch(url, data)
+  }
 }
