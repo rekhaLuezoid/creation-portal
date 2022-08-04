@@ -2060,90 +2060,82 @@ showTexbooklist() {
       "request": {
         "questionset": {
           "name": "Untitled",
-          "code": "895ad53a-1723-e9a3-60f7-337a5875bfcc",
-          "mimeType": "application/vnd.sunbird.questionset",
-          "createdBy": "5a587cc1-e018-4859-a0a8-e842650b9d64",
-          "primaryCategory": "Exam Question Set",
-          "creator": "n11@yopmail.com",
-          "author": "n11@yopmail.com",
-          "programId": "4dff0840-124b-11ed-be8b-9962d8844469",
-          "channel": "01309282781705830427",
-          "framework": "ekstep_ncert_k-12",
-          "board": "CBSE",
-          "medium": [],
-          "gradeLevel": [],
-          "subject": [],
-          "boardIds": [],
-          "mediumIds": [],
-          "gradeLevelIds": [],
-          "subjectIds": [],
-          "topic": []
+          code: questionSetData.code,
+          mimeType: questionSetData.mimeType,
+          createdBy: questionSetData.createdBy,
+          primaryCategory: questionSetData.primaryCategory,
+          creator: questionSetData.creator,
+          author: questionSetData.author,
+          programId: questionSetData.programId,
+          channel: questionSetData.channel,
+          framework: questionSetData.framework,
+          board: questionSetData.board,
+          medium: questionSetData.medium,
+          gradeLevel: questionSetData.gradeLevel,
+          subject: questionSetData.subject,
+          boardIds: [],
+          mediumIds: [],
+          gradeLevelIds: [],
+          subjectIds: [],
+          topic: []
         }
       }
     }
+    const questionSetIdObj= { questionSetId: "", selectionSetId: questionSetData.code}
     this.sourcingService.createDuplicateQuestionSet(createData).subscribe(res=>{
       console.log('res', res);
+     questionSetIdObj.questionSetId = _.get(res,'result.identifier')
+      console.log('Qset', questionSetData);
+      
     })
     const data = {
       "request": {
         "data": {
           "nodesModified": {
-            "do_11359489331403980814": {
+            [questionSetIdObj.questionSetId]: {
               "root": true,
-              "objectType": "QuestionSet",
+              objectType: questionSetData.objectType,
               "metadata": {
                 "appIcon": "",
-                "name": "Example One",
-                "primaryCategory": "Exam Question Set",
+                name: questionSetData.name+'1234',
+                primaryCategory: questionSetData.primaryCategory,
                 "additionalCategories": [],
-                "board": "CBSE",
-                "medium": [
-                  "English"
-                ],
-                "gradeLevel": [
-                  "Class 3"
-                ],
-                "subject": [
-                  "Mathematics"
-                ],
-                "shuffle": true,
-                "showFeedback": "No",
-                "showSolutions": "No",
-                "showTimer": "No",
-                "visibility": "Default",
-                "author": "n11@yopmail.com",
-                "copyright": "NIT123",
-                "license": "CC BY 4.0",
-                "attributions": [],
-                "description": "Example One Example One Example One",
-                "keywords": [
-                  "test"
-                ],
+                board: questionSetData.board,
+                medium: questionSetData.medium,
+                gradeLevel: questionSetData.gradeLevel,
+                subject: questionSetData.subject,
+                shuffle: questionSetData.shuffle,
+                showFeedback: questionSetData.showFeedback,
+                showSolutions: questionSetData.showSolutions,
+                showTimer: questionSetData.showTimer,
+                visibility: questionSetData.visibility,
+                author: questionSetData.author,
+                copyright: questionSetData.copyright,
+                license: questionSetData.license,
+                attributions: [],
+                description: questionSetData.description,
+                keywords: questionSetData.keywords,
                 "instructions": {
                   "default": "Example One Example One Example One Example One"
                 },
-                "audience": [
-                  "Student"
-                ],
-                "maxScore": 0
+                audience: questionSetData.audience,
+                maxScore: questionSetData.maxScore
               },
               "isNew": false
             },
-            "b02a00d9-5fac-d172-c822-b2589e807657": {
+            [questionSetIdObj.selectionSetId]: {
               "root": false,
-              "objectType": "QuestionSet",
+              "objectType": questionSetData.objectType,
               "metadata": {
-                "mimeType": "application/vnd.sunbird.questionset",
-                "code": "b02a00d9-5fac-d172-c822-b2589e807657",
-                "name": "Section Example One",
-                "visibility": "Parent",
-                "primaryCategory": "Exam Question Set",
-                "attributions": [],
-                "description": "Example One Example One Example One",
-                "keywords": [
-                  "test"
-                ],
-                "topic": [
+                mimeType: "application/vnd.sunbird.questionset",
+                code: [questionSetIdObj.selectionSetId],
+                name: questionSetData.name,
+                visibility: questionSetData.visibility,
+                primaryCategory: questionSetData.primaryCategory,
+                attributions: [],
+                description: questionSetData.description,
+                keywords: questionSetData.keywords,
+                "topic": [ 
                   "Addition"
                 ]
               },
@@ -2151,14 +2143,14 @@ showTexbooklist() {
             }
           },
           "hierarchy": {
-            "do_11359489331403980814": {
+            [questionSetIdObj.questionSetId]: {
               "name": "Example One",
               "children": [
-                "b02a00d9-5fac-d172-c822-b2589e807657"
+                [questionSetIdObj.selectionSetId]
               ],
               "root": true
             },
-            "b02a00d9-5fac-d172-c822-b2589e807657": {
+            [questionSetIdObj.selectionSetId]: {
               "name": "Section Example One",
               "children": [],
               "root": false
