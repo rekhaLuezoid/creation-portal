@@ -16,6 +16,7 @@ import * as alphaNumSort from 'alphanum-sort';
 import { ProgramTelemetryService } from '../../services';
 import { CacheService } from 'ng2-cache-service';
 import { IContentEditorComponentInput } from '../../../sourcing/interfaces';
+import { result } from 'lodash';
 
 @Component({
   selector: 'app-create-program',
@@ -2060,105 +2061,227 @@ showTexbooklist() {
       "request": {
         "questionset": {
           "name": "Untitled",
-          code: questionSetData.code,
-          mimeType: questionSetData.mimeType,
-          createdBy: questionSetData.createdBy,
-          primaryCategory: questionSetData.primaryCategory,
-          creator: questionSetData.creator,
-          author: questionSetData.author,
-          programId: questionSetData.programId,
-          channel: questionSetData.channel,
-          framework: questionSetData.framework,
-          board: questionSetData.board,
-          medium: questionSetData.medium,
-          gradeLevel: questionSetData.gradeLevel,
-          subject: questionSetData.subject,
-          boardIds: [],
-          mediumIds: [],
-          gradeLevelIds: [],
-          subjectIds: [],
-          topic: []
+          "code": "89c1b42a-af2b-ce0d-713c-706a6bfbb7d9",
+          "mimeType": "application/vnd.sunbird.questionset",
+          "createdBy": "5a587cc1-e018-4859-a0a8-e842650b9d64",
+          "primaryCategory": "Exam Question Set",
+          "creator": "n11@yopmail.com",
+          "author": "n11@yopmail.com",
+          "programId": "4dff0840-124b-11ed-be8b-9962d8844469",
+          "channel": "01309282781705830427",
+          "framework": "ekstep_ncert_k-12",
+          "board": "CBSE",
+          "medium": [],
+          "gradeLevel": [],
+          "subject": [],
+          "boardIds": [],
+          "mediumIds": [],
+          "gradeLevelIds": [],
+          "subjectIds": [],
+          "topic": []
         }
       }
     }
+    
+
     const questionSetIdObj= { questionSetId: "", selectionSetId: questionSetData.code}
-    this.sourcingService.createDuplicateQuestionSet(createData).subscribe(res=>{
-      console.log('res', res);
-     questionSetIdObj.questionSetId = _.get(res,'result.identifier')
-      console.log('Qset', questionSetData);
+
+    this.sourcingService.sectionNameQuestionSet(questionSetData.identifier).subscribe(res=>{
+      let section = _.get(res, 'result.questionSet.childNodes')
+      this.sourcingService.instructionQuestionSet(questionSetData.identifier).subscribe(res=>{
+        let instructions = _.get(res, 'result.questionSet.instructions')
+        this.sourcingService.createDuplicateQuestionSet(createData).subscribe(res=>{
+          console.log('res', res);
+          let questionId = _.get(res, 'result.identifier');
+          this.programDetails.config.collections.push({
+            allowed_content_types: [],
+            children: [],
+            id: questionId,
+          });
+    
+          const data = {
+          "request": {
+            "data": {
+              "nodesModified": {
+                [questionId]: {
+                  "root": true,
+                  "objectType": questionSetData.objectType,
+                  "metadata": {
+                    "appIcon": "",
+                    "name": questionSetData.name,
+                    "primaryCategory": questionSetData.primaryCategory,
+                    "additionalCategories": questionSetData.additionalCategories,
+                    "board": questionSetData.board,
+                    "medium": questionSetData.medium,
+                    "gradeLevel": questionSetData.gradeLevel,
+                    "subject": questionSetData.subject,
+                    "shuffle": questionSetData.shuffle,
+                    "showFeedback": questionSetData.showFeedback,
+                    "showSolutions": questionSetData.showSolutions,
+                    "showTimer": questionSetData.showTimer,
+                    "visibility": questionSetData.visibility,
+                    "author": questionSetData.author,
+                    "copyright": questionSetData.copyright,
+                    "license": questionSetData.license,
+                    "attributions": questionSetData.attributions,
+                    "description": questionSetData.description,
+                    "keywords": questionSetData.keywords,
+                    "instructions": instructions,
+                    "audience": questionSetData.audience,
+                    "maxScore": questionSetData.maxScore
+                  },
+                  "isNew": false
+                },
+                // "dc034503-35f8-3d97-01cd-a980a00b4bdf": {
+                //   "root": false,
+                //   "objectType": "QuestionSet",
+                //   "metadata": {
+                //     "mimeType": "application/vnd.sunbird.questionset",
+                //     "code": "dc034503-35f8-3d97-01cd-a980a00b4bdf",
+                //     "name": "Section child 2",
+                //     "visibility": "Parent",
+                //     "primaryCategory": "Exam Question Set",
+                //     "attributions": [],
+                //     "description": "Section child 2 Section child 2 Section child 2",
+                //     "keywords": [
+                //       "testchild"
+                //     ],
+                //     "topic": [
+                //       "A Letter to God"
+                //     ]
+                //   },
+                //   "isNew": true
+                // }
+              },
+              "hierarchy": {
+                [questionId]: {
+                  "name": questionSetData.name,
+                  "children": [
+                    // section ids
+                  ],
+                  "root": true
+                },
+                
+              },
+              "lastUpdatedBy": "5a587cc1-e018-4859-a0a8-e842650b9d64"
+            }
+          }
+        }
+    
+          this.sourcingService.updateDuplicateQustionSet(data).subscribe(res=>{
+            console.log('updateRes', res);
+            this.showTexbooklist();
+    
+    
+            // showTexbooklist
+          })
+    
+         questionSetIdObj.questionSetId = _.get(res,'result.identifier')
+          console.log('Qset', questionSetData);
+          
+        })
+      })
       
     })
-    const data = {
-      "request": {
-        "data": {
-          "nodesModified": {
-            [questionSetIdObj.questionSetId]: {
-              "root": true,
-              objectType: questionSetData.objectType,
-              "metadata": {
-                "appIcon": "",
-                name: questionSetData.name+'1234',
-                primaryCategory: questionSetData.primaryCategory,
-                "additionalCategories": [],
-                board: questionSetData.board,
-                medium: questionSetData.medium,
-                gradeLevel: questionSetData.gradeLevel,
-                subject: questionSetData.subject,
-                shuffle: questionSetData.shuffle,
-                showFeedback: questionSetData.showFeedback,
-                showSolutions: questionSetData.showSolutions,
-                showTimer: questionSetData.showTimer,
-                visibility: questionSetData.visibility,
-                author: questionSetData.author,
-                copyright: questionSetData.copyright,
-                license: questionSetData.license,
-                attributions: [],
-                description: questionSetData.description,
-                keywords: questionSetData.keywords,
-                "instructions": {
-                  "default": "Example One Example One Example One Example One"
-                },
-                audience: questionSetData.audience,
-                maxScore: questionSetData.maxScore
-              },
-              "isNew": false
-            },
-            [questionSetIdObj.selectionSetId]: {
-              "root": false,
-              "objectType": questionSetData.objectType,
-              "metadata": {
-                mimeType: "application/vnd.sunbird.questionset",
-                code: [questionSetIdObj.selectionSetId],
-                name: questionSetData.name,
-                visibility: questionSetData.visibility,
-                primaryCategory: questionSetData.primaryCategory,
-                attributions: [],
-                description: questionSetData.description,
-                keywords: questionSetData.keywords,
-                "topic": [ 
-                  "Addition"
-                ]
-              },
-              "isNew": true
-            }
-          },
-          "hierarchy": {
-            [questionSetIdObj.questionSetId]: {
-              "name": "Example One",
-              "children": [
-                [questionSetIdObj.selectionSetId]
-              ],
-              "root": true
-            },
-            [questionSetIdObj.selectionSetId]: {
-              "name": "Section Example One",
-              "children": [],
-              "root": false
-            }
-          },
-          "lastUpdatedBy": "5a587cc1-e018-4859-a0a8-e842650b9d64"
-        }
-      }
-    }
+
+   
+
+    // const data = {
+    //   "request": {
+    //     "data": {
+    //       "nodesModified": {
+    //         [questionSetIdObj.questionSetId]: {
+    //           "root": true,
+    //           objectType: questionSetData.objectType,
+    //           "metadata": {
+    //             "appIcon": "",
+    //             name: questionSetData.name,
+    //             primaryCategory: questionSetData.primaryCategory,
+    //             "additionalCategories": [],
+    //             board: questionSetData.board,
+    //             medium: questionSetData.medium,
+    //             gradeLevel: questionSetData.gradeLevel,
+    //             subject: questionSetData.subject,
+    //             shuffle: questionSetData.shuffle,
+    //             showFeedback: questionSetData.showFeedback,
+    //             showSolutions: questionSetData.showSolutions,
+    //             showTimer: questionSetData.showTimer,
+    //             visibility: questionSetData.visibility,
+    //             author: questionSetData.author,
+    //             copyright: questionSetData.copyright,
+    //             license: questionSetData.license,
+    //             attributions: [],
+    //             description: questionSetData.description,
+    //             keywords: questionSetData.keywords,
+    //             "instructions": {
+    //               "default": "Example One Example One Example One Example One"
+    //             },
+    //             audience: questionSetData.audience,
+    //             maxScore: questionSetData.maxScore
+    //           },
+    //           "isNew": false
+    //         },
+    //         [questionSetIdObj.selectionSetId]: {
+    //           "root": false,
+    //           "objectType": questionSetData.objectType,
+    //           "metadata": {
+    //             mimeType: "application/vnd.sunbird.questionset",
+    //             code: [questionSetIdObj.selectionSetId],
+    //             name: questionSetData.name,
+    //             visibility: questionSetData.visibility,
+    //             primaryCategory: questionSetData.primaryCategory,
+    //             attributions: [],
+    //             description: questionSetData.description,
+    //             keywords: questionSetData.keywords,
+    //             "topic": [ 
+    //               "Addition"
+    //             ]
+    //           },
+    //           "isNew": true
+    //         }
+    //       },
+    //       "hierarchy": {
+    //         [questionSetIdObj.questionSetId]: {
+    //           "name": "Example One",
+    //           "children": [
+    //             [questionSetIdObj.selectionSetId]
+    //           ],
+    //           "root": true
+    //         },
+    //         [questionSetIdObj.selectionSetId]: {
+    //           "name": "Section Example One",
+    //           "children": [],
+    //           "root": false
+    //         }
+    //       },
+    //       "lastUpdatedBy": "5a587cc1-e018-4859-a0a8-e842650b9d64"
+    //     }
+    //   }
+    // }
+    // const createData = {
+    //   "request": {
+    //     "questionset": {
+    //       "name": "Untitled",
+    //       code: questionSetData.code,
+    //       mimeType: questionSetData.mimeType,
+    //       createdBy: questionSetData.createdBy,
+    //       primaryCategory: questionSetData.primaryCategory,
+    //       creator: questionSetData.creator,
+    //       author: questionSetData.author,
+    //       programId: questionSetData.programId,
+    //       channel: questionSetData.channel,
+    //       framework: questionSetData.framework,
+    //       board: questionSetData.board,
+    //       medium: questionSetData.medium,
+    //       gradeLevel: questionSetData.gradeLevel,
+    //       subject: questionSetData.subject,
+    //       boardIds: [],
+    //       mediumIds: [],
+    //       gradeLevelIds: [],
+    //       subjectIds: [],
+    //       topic: []
+    //     }
+    //   }
+    // }
   }
 }

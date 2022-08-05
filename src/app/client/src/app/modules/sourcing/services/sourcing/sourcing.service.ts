@@ -290,4 +290,15 @@ export class SourcingService {
     const url = '/action/questionset/v1/hierarchy/update'
     return this.httpClient.patch(url, data)
   }
+
+  instructionQuestionSet(qSetId:any){
+    const instURL = `action/questionset/v1/read/${qSetId}?mode=edit&fields=instructions`
+    return this.httpClient.get(instURL)
+
+  }
+
+  sectionNameQuestionSet(qSetId:any){
+    const secURL = `action/questionset/v1/hierarchy/${qSetId}?mode=edit`
+    return this.httpClient.get(secURL)
+  }
 }
