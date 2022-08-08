@@ -18,45 +18,28 @@
                     <span [innerHtml]="question.editorState.question"></span>
                 </p>
             </div>
-           <ng-container *ngIf="question.qType==='SA' ; else objectiveTypeQuestion">
+           <!-- <ng-container *ngIf="question.qType==='SA' ; else objectiveTypeQuestion">
                 <div><span [innerHtml]="question.editorState.answer"></span></div>
-           </ng-container>
+           </ng-container> -->
+            <ng-container *ngIf="question.qType==='MCQ'">
+                <div class="container-grid">
+                    <ng-container *ngFor="let option of question.editorState.options; let optionIndex= index">
+                        <label style="font-weight: 100;">
+                            <span>{{labellingOption[optionIndex]}}: </span>
+                            <span [innerHtml]="option.value.body"></span>
+                        </label>
+                    </ng-container>
+                </div>
+            </ng-container>
             <div>
                 <label>Status:
                 <span [ngClass]="questionStatusMap[question.identifier]?.styleClass">
                   {{questionStatusMap[question.identifier]['status']}}
                 </span>
                 </label>
-
             </div>
-            <ng-template #objectiveTypeQuestion>
-                <div class="container-grid">
-                    <ng-container *ngFor="let option of question.editorState.options; let optionIndex= index">
-                        <label>
-                            <span>{{labellingOption[optionIndex]}}: </span>
-                            <span [innerHtml]="option.value.body"></span>
-                        </label>
-                    </ng-container>
-                    <!-- <div class="d-flex flex-jc-space-between mb-5">
-                        <label>A:
-                            <span [innerHtml]="question.editorState.options[0].value.body"></span>
-                        </label>
-                        <label>B:
-                            <span [innerHtml]="question.editorState.options[1].value.body"></span>
-                        </label>
-
-                    </div>
-                    <div class="d-flex flex-jc-space-between mb-5">
-                        <label>C:
-                            <span [innerHtml]="question.editorState.options[2].value.body"></span>
-                        </label>
-                        <label>D:
-                            <span [innerHtml]="question.editorState.options[3].value.body"></span>
-                        </label>
-
-                    </div> -->
-                </div>
-            </ng-template>
+            <hr>
         </div>   
+        
     </div>
 </sui-modal>
