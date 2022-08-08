@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class QuestionPreviewService {
-  readonly url = 'https://dock.sunbirded.org/api/question/v1/list'
+  readonly url = '/api/question/v1/list'
 
   constructor(private _httpClient: HttpClient) { }
 
