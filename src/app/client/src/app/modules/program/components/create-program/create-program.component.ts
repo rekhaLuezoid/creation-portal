@@ -2058,30 +2058,30 @@ showTexbooklist() {
 
   duplicateQuestionSet(questionSetData:any){
     const createData = {
-      "request": {
-        "questionset": {
-          "name": questionSetData.name,
-          "code": questionSetData.code,
-          "mimeType": questionSetData.mimeType,
-          "createdBy": questionSetData.createdby,
-          "primaryCategory": questionSetData.primaryCategory,
-          "creator": questionSetData.creator,
-          "author": questionSetData.author,
-          "programId": questionSetData.programId,
-          "channel": questionSetData.channel,
-          "framework": questionSetData.framework,
-          "board": questionSetData.board,
-          "medium": [],
-          "gradeLevel": [],
-          "subject": [],
-          "boardIds": [],
-          "mediumIds": [],
-          "gradeLevelIds": [],
-          "subjectIds": [],
-          "topic": []
+      'request': {
+        'questionset': {
+          'name': questionSetData.name,
+          'code': questionSetData.code,
+          'mimeType': questionSetData.mimeType,
+          'createdBy': questionSetData.createdby,
+          'primaryCategory': questionSetData.primaryCategory,
+          'creator': questionSetData.creator,
+          'author': questionSetData.author,
+          'programId': questionSetData.programId,
+          'channel': questionSetData.channel,
+          'framework': questionSetData.framework,
+          'board': questionSetData.board,
+          'medium': [],
+          'gradeLevel': [],
+          'subject': [],
+          'boardIds': [],
+          'mediumIds': [],
+          'gradeLevelIds': [],
+          'subjectIds': [],
+          'topic': []
         }
       }
-    }
+    };
     
     const questionSetIdObj= { questionSetId: "", selectionSetId: questionSetData.code}
 
@@ -2099,54 +2099,54 @@ showTexbooklist() {
           });
     
           const data = {
-          "request": {
-            "data": {
-              "nodesModified": {
-                [questionId]: {
-                  "root": true,
-                  "objectType": questionSetData.objectType,
-                  "metadata": {
-                    "appIcon": "",
-                    "name": questionSetData.name,
-                    "primaryCategory": questionSetData.primaryCategory,
-                    "additionalCategories": questionSetData.additionalCategories,
-                    "board": questionSetData.board,
-                    "medium": questionSetData.medium,
-                    "gradeLevel": questionSetData.gradeLevel,
-                    "subject": questionSetData.subject,
-                    "shuffle": questionSetData.shuffle,
-                    "showFeedback": questionSetData.showFeedback,
-                    "showSolutions": questionSetData.showSolutions,
-                    "showTimer": questionSetData.showTimer,
-                    "visibility": questionSetData.visibility,
-                    "author": questionSetData.author,
-                    "copyright": questionSetData.copyright,
-                    "license": questionSetData.license,
-                    "attributions": questionSetData.attributions,
-                    "description": questionSetData.description,
-                    "keywords": questionSetData.keywords,
-                    "instructions": instructions,
-                    "audience": questionSetData.audience,
-                    "maxScore": questionSetData.maxScore
+            'request': {
+              'data': {
+                'nodesModified': {
+                  [questionId]: {
+                    'root': true,
+                    'objectType': questionSetData.objectType,
+                    'metadata': {
+                      'appIcon': '',
+                      'name': questionSetData.name,
+                      'primaryCategory': questionSetData.primaryCategory,
+                      'additionalCategories': questionSetData.additionalCategories,
+                      'board': questionSetData.board,
+                      'medium': questionSetData.medium,
+                      'gradeLevel': questionSetData.gradeLevel,
+                      'subject': questionSetData.subject,
+                      'shuffle': questionSetData.shuffle,
+                      'showFeedback': questionSetData.showFeedback,
+                      'showSolutions': questionSetData.showSolutions,
+                      'showTimer': questionSetData.showTimer,
+                      'visibility': questionSetData.visibility,
+                      'author': questionSetData.author,
+                      'copyright': questionSetData.copyright,
+                      'license': questionSetData.license,
+                      'attributions': questionSetData.attributions,
+                      'description': questionSetData.description,
+                      'keywords': questionSetData.keywords,
+                      'instructions': instructions,
+                      'audience': questionSetData.audience,
+                      'maxScore': questionSetData.maxScore
+                    },
+                    'isNew': true
                   },
-                  "isNew": true
+  
                 },
-                
-              },
-              "hierarchy": {
-                [questionId]: {
-                  "name": questionSetData.name,
-                  "children": [
-                    // section ids
-                  ],
-                  "root": true
+                'hierarchy': {
+                  [questionId]: {
+                    'name': questionSetData.name,
+                    'children': [
+                      // section ids
+                    ],
+                    'root': true
+                  },
+  
                 },
-                
-              },
-              "lastUpdatedBy": "5a587cc1-e018-4859-a0a8-e842650b9d64"
+                'lastUpdatedBy': this.userprofile.id
+              }
             }
-          }
-        }
+          };
     
           this.sourcingService.updateDuplicateQustionSet(data).subscribe(res=>{
             console.log('updateRes', res);
@@ -2155,9 +2155,6 @@ showTexbooklist() {
     
             // showTexbooklist
           })
-    
-         questionSetIdObj.questionSetId = _.get(res,'result.identifier')
-          console.log('Qset', questionSetData);
           
         })
       })
