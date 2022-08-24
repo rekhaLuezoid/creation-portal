@@ -647,6 +647,7 @@
                                       class="edit outline icon"></i>{{resource?.frmelmnts?.lbl?.editBlueprint}}
                                   </div>
                                   <div
+                                       *ngIf="projectTargetType === 'questionSets'"
                                        class="sb-color-primary fxsmall cursor-pointer text-none"
                                        (click)="duplicateQuestionSet(tempCollection)">
                                     <i
